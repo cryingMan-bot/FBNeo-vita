@@ -35,3 +35,6 @@ src/burner/libretro/m68kmake
 src/burner/libretro/pgmspritecreate
 !gamelist.txt
 !src/dep/generated/
+
+# Local AI working directory (policy, notes, build tooling)
+/TEMP/

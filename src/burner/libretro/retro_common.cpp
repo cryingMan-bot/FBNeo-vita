@@ -72,9 +72,15 @@ uint32_t g_opt_neo_geo_mode           = 0;
 
 #ifdef USE_CYCLONE
 // 0 - c68k, 1 - m68k
-// we don't use cyclone by default because it breaks savestates cross-platform compatibility (including netplay)
-int nSekCpuCore = 1;
-static bool bCycloneEnabled = false;
+// Vita opts into Cyclone; other platforms retain the upstream default.
+// Cross-engine savestates/netplay remain incompatible. Explicit options win.
+#ifdef VITA
+static const bool kCycloneDefaultEnabled = true;
+#else
+static const bool kCycloneDefaultEnabled = false;
+#endif
+int nSekCpuCore = kCycloneDefaultEnabled ? 0 : 1;
+static bool bCycloneEnabled = kCycloneDefaultEnabled;
 #endif
 
 static UINT8 diag_input_start[]      = { RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_EMPTY };
@@ -395,7 +401,7 @@ static struct retro_core_option_v2_definition var_fbneo_cyclone = {
 		{ "enabled",  NULL },
 		{ NULL,       NULL },
 	},
-	"disabled"
+	kCycloneDefaultEnabled ? "enabled" : "disabled"
 };
 #endif
 

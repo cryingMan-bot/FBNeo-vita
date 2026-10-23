@@ -481,6 +481,11 @@ void TC0100SCNRenderCharLayer(INT32 Chip, INT32 Priority)
 				if (y >= 256) y -= 256;
 			}
 
+			if (x <= -8 || x >= TC0100SCNClipWidth[Chip] || y <= -8 || y >= TC0100SCNClipHeight[Chip]) {
+				TileIndex++;
+				continue;
+			}
+
 			UINT32 nPalette = Colour << TC0100SCNCharLayerGranularity;
 
 			INT32 flip = ((yFlip) ? 0x38 : 0) + ((xFlip) ? 0x07 : 0);

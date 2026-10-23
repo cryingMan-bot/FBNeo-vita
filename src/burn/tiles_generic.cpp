@@ -169,10 +169,13 @@ void BurnTransferClear(UINT16 nFillPattern)
 	if (!Debug_BurnTransferInitted) bprintf(PRINT_ERROR, _T("BurnTransferClear called without init\n"));
 #endif
 
-	for (INT32 i = 0; i < nTransWidth * nTransHeight; i++) {
-		pTransDraw[i] = nFillPattern;
-		pPrioDraw[i] = 0;
+	UINT16 *pDst = pTransDraw;
+	const INT32 nCount = nTransWidth * nTransHeight;
+
+	for (INT32 i = 0; i < nCount; i++) {
+		pDst[i] = nFillPattern;
 	}
+	memset(pPrioDraw, 0, nCount);
 }
 
 INT32 BurnTransferCopy(UINT32* pPalette)
